@@ -22,6 +22,10 @@ public class User {
 
     private String phone;
 
+    private String avatar;
+
+    // roleId
+
     public User() {
     }
 
@@ -82,9 +86,18 @@ public class User {
         this.phone = phone;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     @Override
     public String toString() {
         return "User [id=" + id + ", email=" + email + ", passWord=" + passWord + ", fullName=" + fullName
-                + ", address=" + address + ", phone=" + phone + "]";
+                + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + "]";
     }
+
 }
