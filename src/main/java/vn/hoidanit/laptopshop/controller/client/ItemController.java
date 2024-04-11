@@ -22,6 +22,6 @@ public class ItemController {
         Product product = this.productService.getProductById(id);
         model.addAttribute("product", product);
         model.addAttribute("id", id);
-        return "/client/product/detail";
+        return "client/product/detail";
     }
 }
