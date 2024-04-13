@@ -5,7 +5,7 @@
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
                     <a href="/" class="navbar-brand">
-                        <h1 class="text-primary display-6">Laptopshop</h1>
+                        <h1 class="text-primary display-6">LaptopMart</h1>
                     </a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarCollapse">
@@ -15,6 +15,7 @@
                         <div class="navbar-nav">
                             <a href="/" class="nav-item nav-link active">Trang Chủ</a>
                             <a href="/products" class="nav-item nav-link">Sản Phẩm</a>
+                            <a href="#" class="nav-item nav-link">Liên lạc</a>
 
                         </div>
                         <div class="d-flex m-3 me-0">

@@ -17,25 +17,22 @@
             </head>
 
             <body>
-                <div class="header">
-                    <p class="logo">LOGO</p>
-                    <div class="cart"><i class="fa-solid fa-cart-shopping"></i>
-                        <p id="count">0</p>
-                    </div>
-                </div>
                 <div class="container">
-                    <div id="root"></div>
-                    <div class="sidebar">
-                        <div class="head">
-                            <p>My Cart</p>
-                        </div>
-                        <div id="cartItem">Your cart is empty</div>
-                        <div class="foot">
-                            <h3>Total</h3>
-                            <h2 id="total">$ 0.00</h2>
+                    <div class="product-list">
+                        <h2>Product List</h2>
+                        <div id="product-container" class="product-container">
+                            <!-- Danh sách sản phẩm sẽ được hiển thị tại đây -->
                         </div>
                     </div>
+                    <div class="cart">
+                        <h2>Shopping Cart</h2>
+                        <div id="cart" class="cart-items">
+                            <!-- Giỏ hàng sẽ được hiển thị tại đây -->
+                        </div>
+                        <p>Total: <span id="total-price">$0.00</span></p>
+                    </div>
                 </div>
+
                 <!-- JavaScript Libraries -->
                 <script src="/seller/js/app.js"></script>
             </body>
