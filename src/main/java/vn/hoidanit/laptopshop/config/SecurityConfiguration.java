@@ -71,6 +71,9 @@ public class SecurityConfiguration {
                         .requestMatchers("/admin/**")
                         .hasRole("ADMIN")
 
+                        .requestMatchers("/seller/**")
+                        .hasRole("SELLER")
+
                         .anyRequest().authenticated())
 
                 .sessionManagement((sessionManagement) -> sessionManagement

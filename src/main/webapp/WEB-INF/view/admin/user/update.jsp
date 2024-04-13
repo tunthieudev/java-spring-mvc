@@ -32,8 +32,8 @@
                                         <div class="col-md-6 col-12 mx-auto">
                                             <h3>Update User</h3>
                                             <hr />
-                                            <form:form method="post" action="/admin/user/update" modelAttribute="user"
-                                                class="row">
+                                            <form:form method="post" action="/admin/user/update"
+                                                modelAttribute="newUser" class="row">
                                                 <div class="mb-3" style="display: none;">
                                                     <label class="form-label">ID:</label>
                                                     <form:input type="text" class="form-control" path="id" />
@@ -61,16 +61,17 @@
                                                     <form:select class="form-select" path="role.name">
                                                         <form:option value="ADMIN">ADMIN</form:option>
                                                         <form:option value="USER">USER</form:option>
+                                                        <form:option value="SELLER">SELLER</form:option>
                                                     </form:select>
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
-                                                    <label for="avatarFile" class="form-label">Avatar:</label>
+                                                    <label for="avatarFile" class="form-label">Image:</label>
                                                     <input class="form-control" type="file" id="avatarFile"
                                                         accept=".png, .jpg, .jpeg" name="hoidanitFile" />
                                                 </div>
                                                 <div class="col-12 mb-3">
                                                     <img style="max-height: 250px; display: none;" alt="avatar preview"
-                                                        id="avatarPreview">
+                                                        id="avatarPreview" />
                                                 </div>
                                                 <div class="col-12 mb-5">
                                                     <button type="submit" class="btn btn-warning">Update</button>

@@ -55,7 +55,7 @@ public class UserController {
         return "admin/user/detail";
     }
 
-    @GetMapping("/admin/user/create") // default method GET
+    @GetMapping("/admin/user/create") // GET
     public String getCreateUserPage(Model model) {
         model.addAttribute("newUser", new User());
         return "admin/user/create";
@@ -63,25 +63,15 @@ public class UserController {
 
     @PostMapping(value = "/admin/user/create")
     public String createUserPage(Model model,
-            @ModelAttribute("newUser") @Valid User hoidanit,
-            BindingResult newUserBindingResult,
+            @ModelAttribute("newUser") User hoidanit,
             @RequestParam("hoidanitFile") MultipartFile file) {
-        List<FieldError> errors = newUserBindingResult.getFieldErrors();
-        for (FieldError error : errors) {
-            System.out.println(error.getField() + " - " + error.getDefaultMessage());
-        }
-        // validate
-        if (newUserBindingResult.hasErrors()) {
-            return "/admin/user/create";
-        }
-        //
+
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
         String hashPassword = this.passwordEncoder.encode(hoidanit.getPassWord());
 
         hoidanit.setAvatar(avatar);
         hoidanit.setPassWord(hashPassword);
         hoidanit.setRole(this.userService.getRoleByName(hoidanit.getRole().getName()));
-
         // save
         this.userService.handleSaveUser(hoidanit);
         return "redirect:/admin/user";
@@ -90,27 +80,34 @@ public class UserController {
     @RequestMapping("/admin/user/update/{id}") // GET
     public String getUpdateUserPage(Model model, @PathVariable long id) {
         User currentUser = this.userService.getUserByIdUser(id);
-        model.addAttribute("user", currentUser);
+        model.addAttribute("newUser", currentUser);
         return "admin/user/update";
     }
 
-    @PostMapping("/admin/user/update") // POST
-    public String postUpdateUser(Model model,
-            @ModelAttribute("newUser") @Valid User hoidanit,
-            BindingResult newUserBindingResult) {
+    @PostMapping("/admin/user/update")
+    public String postUpdateUser(Model model, @ModelAttribute("newUser") User hoidanit,
+            BindingResult newProductBindingResult,
+            @RequestParam("hoidanitFile") MultipartFile file) {
 
         // validate
-        if (newUserBindingResult.hasErrors()) {
-            return "admin/user/update";
+        if (newProductBindingResult.hasErrors()) {
+            return "admin/product/update";
         }
 
         User currentUser = this.userService.getUserByIdUser(hoidanit.getId());
         if (currentUser != null) {
+
+            // update new image
+            if (!file.isEmpty()) {
+                String img = this.uploadService.handleSaveUploadFile(file, "avatar");
+                currentUser.setAvatar(img);
+            }
+
             currentUser.setAddress(hoidanit.getAddress());
             currentUser.setFullName(hoidanit.getFullName());
             currentUser.setPhone(hoidanit.getPhone());
             currentUser.setRole(this.userService.getRoleByName(hoidanit.getRole().getName()));
-
+            // bug here
             this.userService.handleSaveUser(currentUser);
         }
         return "redirect:/admin/user";

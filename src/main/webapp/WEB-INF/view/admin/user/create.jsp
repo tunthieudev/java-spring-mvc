@@ -89,6 +89,7 @@
                                                     <form:select class="form-select" path="role.name">
                                                         <form:option value="ADMIN">ADMIN</form:option>
                                                         <form:option value="USER">USER</form:option>
+                                                        <form:option value="SELLER">SELLER</form:option>
                                                     </form:select>
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
