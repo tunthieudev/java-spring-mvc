@@ -30,9 +30,8 @@ public class Order {
     private String receiverPhone;
     private String status;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(name = "date")
-    private Date datePlaceOrder;
+    private String datePlaceOrder;
 
     // userId
     @ManyToOne
@@ -106,11 +105,11 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public Date getDatePlaceOrder() {
+    public String getDatePlaceOrder() {
         return datePlaceOrder;
     }
 
-    public void setDatePlaceOrder(Date datePlaceOrder) {
+    public void setDatePlaceOrder(String datePlaceOrder) {
         this.datePlaceOrder = datePlaceOrder;
     }
 

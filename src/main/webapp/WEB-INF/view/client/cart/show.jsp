@@ -63,6 +63,9 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
+                                            <th scope="col"><input type="checkbox" id="allLaptop"
+                                                    onClick="toggle(this)">
+                                            </th>
                                             <th scope="col">Sản phẩm</th>
                                             <th scope="col">Tên</th>
                                             <th scope="col">Giá cả</th>
@@ -80,15 +83,18 @@
                                             </tr>
                                         </c:if>
                                         <c:forEach var="cartDetail" items="${cartDetails}" varStatus="status">
-
                                             <tr>
-                                                <th scope="row">
+                                                <td>
+                                                    <input onclick="getValue()" type="checkbox"
+                                                        value="${cartDetail.product.id}" name="laptop">
+                                                </td>
+                                                <td scope="row">
                                                     <div class="d-flex align-items-center">
                                                         <img src="/images/product/${cartDetail.product.image}"
                                                             class="img-fluid me-5 rounded-circle"
                                                             style="width: 80px; height: 80px;" alt="">
                                                     </div>
-                                                </th>
+                                                </td>
                                                 <td>
                                                     <p class="mb-0 mt-4">
                                                         <a href="/product/${cartDetail.product.id}" target="_blank">
@@ -226,6 +232,39 @@
 
                     <!-- Template Javascript -->
                     <script src="/client/js/main.js"></script>
+                    <script>
+                        let arrResults = [];
+                        function getValue() {
+                            arrResults = [];
+                            let allCheckboxes = document.getElementById('allLaptop');
+                            let checkboxes = document.getElementsByName('laptop');
+                            for (var i = 0; i < checkboxes.length; i++) {
+                                if (checkboxes[i].checked) {
+                                    arrResults.push(checkboxes[i].value);
+                                }
+                            }
+
+                            if (arrResults.length === checkboxes.length) {
+                                allCheckboxes.checked = true;
+                                console.log("true")
+                            }
+                            else {
+                                allCheckboxes.checked = false;
+                                console.log("false")
+                            }
+                            console.log("You have selected : " + arrResults);
+
+                        }
+
+                        function toggle(source) {
+
+                            checkboxes = document.getElementsByName('laptop');
+                            for (var i = 0, n = checkboxes.length; i < n; i++) {
+                                checkboxes[i].checked = source.checked;
+                            }
+                            getValue();
+                        }
+                    </script>
                 </body>
 
                 </html>

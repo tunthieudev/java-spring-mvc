@@ -50,7 +50,7 @@
                                                 <div class="dropdown float-right">
                                                     <button class="btn btn-success dropdown-toggle" type="button"
                                                         id="filterDropdown" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
+                                                        aria-expanded="false" style="width: 100px;">
                                                         Lọc
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-right"

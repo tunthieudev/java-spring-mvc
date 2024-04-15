@@ -90,8 +90,8 @@ public class ProductService {
                 Product realProduct = productOptional.get();
 
                 // check sản phẩm đã từng được thêm vào giỏ hàng trước đây chưa ?
-                CartDetail oldDetail = this.cartDetailRepository.findByCartAndProduct(cart, realProduct);
-                //
+                CartDetail oldDetail = this.cartDetailRepository.findByCartAndProduct(cart,
+                        realProduct);
                 if (oldDetail == null) {
                     CartDetail cd = new CartDetail();
                     cd.setCart(cart);
@@ -175,9 +175,9 @@ public class ProductService {
                 LocalDateTime now = LocalDateTime.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 String formattedDateTime = now.format(formatter);
-                LocalDateTime localDateTime = LocalDateTime.parse(formattedDateTime, formatter);
-                Date date = Date.from(localDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());
-                order.setDatePlaceOrder(date);
+                order.setDatePlaceOrder(formattedDateTime);
+
+                System.out.println("date pace order: " + order.getDatePlaceOrder());
 
                 double sum = 0;
                 for (CartDetail cd : cartDetails) {
