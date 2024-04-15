@@ -149,8 +149,8 @@
                                     <div class="col-12 col-md-8">
                                         <div class="bg-light rounded">
                                             <div class="p-4">
-                                                <h1 class="display-6 mb-4">Thông Tin <span class="fw-normal">Đơn
-                                                        Hàng</span>
+                                                <h1 class="display-6 mb-4">Thông Tin Đơn
+                                                    Hàng</span>
                                                 </h1>
                                                 <div class="d-flex justify-content-between mb-4">
                                                     <h5 class="mb-0 me-4">Tạm tính:</h5>

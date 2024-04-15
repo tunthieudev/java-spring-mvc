@@ -8,7 +8,6 @@
                         <div class="col-lg-3">
                             <a href="#">
                                 <h1 class="text-primary mb-0">LaptopMart</h1>
-                                <p class="text-secondary mb-0">Laptop products</p>
                             </a>
                         </div>
                         <div class="col-lg-6">

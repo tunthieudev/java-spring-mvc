@@ -3,6 +3,7 @@ package vn.hoidanit.laptopshop.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -182,6 +183,10 @@ public class ProductService {
                     orderDetail.setQuantity(cd.getQuantity());
 
                     map.put(orderDetail.getProduct().getId(), orderDetail.getQuantity());
+
+                    for (Entry<Long, Long> entry : map.entrySet()) {
+                        System.out.println(entry.getKey() + " " + entry.getValue());
+                    }
                     // Product newProduct = new Product();
                     // newProduct.setId(orderDetail.getProduct().getId());
                     // newProduct.setQuantity(orderDetail.getQuantity());
