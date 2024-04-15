@@ -1,5 +1,11 @@
 package vn.hoidanit.laptopshop.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,7 +155,7 @@ public class ProductService {
     }
 
     public void handlePlaceOrder(User user, HttpSession session,
-            String receiverName, String receiverAddress, String receiverPhone) {
+            String receiverName, String receiverAddress, String receiverPhone) throws ParseException {
         Map<Long, Long> map = new HashMap<>();
         // get cart by user
         Cart cart = this.cartRepository.findByUser(user);
@@ -165,6 +171,13 @@ public class ProductService {
                 order.setReceiverAddress(receiverAddress);
                 order.setReceiverPhone(receiverPhone);
                 order.setStatus("PENDING");
+
+                LocalDateTime now = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                String formattedDateTime = now.format(formatter);
+                LocalDateTime localDateTime = LocalDateTime.parse(formattedDateTime, formatter);
+                Date date = Date.from(localDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());
+                order.setDatePlaceOrder(date);
 
                 double sum = 0;
                 for (CartDetail cd : cartDetails) {
@@ -184,15 +197,17 @@ public class ProductService {
 
                     map.put(orderDetail.getProduct().getId(), orderDetail.getQuantity());
 
-                    for (Entry<Long, Long> entry : map.entrySet()) {
-                        System.out.println(entry.getKey() + " " + entry.getValue());
-                    }
-                    // Product newProduct = new Product();
-                    // newProduct.setId(orderDetail.getProduct().getId());
-                    // newProduct.setQuantity(orderDetail.getQuantity());
-                    // this.productRepository.save(newProduct);
-
                     this.orderDetailRepository.save(orderDetail);
+                }
+
+                for (Entry<Long, Long> entry : map.entrySet()) {
+                    System.out.println(entry.getKey() + " " + entry.getValue());
+
+                    Product pr = this.productRepository.findById(entry.getKey()).get();
+                    pr.setQuantity(pr.getQuantity() - entry.getValue());
+                    pr.setSold(pr.getSold() + entry.getValue());
+                    this.productRepository.save(pr);
+                    System.out.println("product: " + pr);
                 }
 
                 // delete cart_detail and cart
@@ -206,5 +221,18 @@ public class ProductService {
                 session.setAttribute("sum", 0);
             }
         }
+    }
+
+    public List<Product> listAllProductsByName(String keyword) {
+
+        return this.productRepository.search(keyword);
+    }
+
+    public List<Product> getAllProductsSortedByRevenueAsc() {
+        return this.productRepository.getAllProductsSortedByAsc();
+    }
+
+    public List<Product> getAllProductsSortedByRevenueDesc() {
+        return this.productRepository.getAllProductsSortedByDesc();
     }
 }

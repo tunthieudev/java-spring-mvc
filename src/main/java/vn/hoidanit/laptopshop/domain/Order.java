@@ -1,7 +1,11 @@
 package vn.hoidanit.laptopshop.domain;
 
+import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +29,10 @@ public class Order {
     private String receiverAddress;
     private String receiverPhone;
     private String status;
+
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @Column(name = "date")
+    private Date datePlaceOrder;
 
     // userId
     @ManyToOne
@@ -96,6 +104,14 @@ public class Order {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public Date getDatePlaceOrder() {
+        return datePlaceOrder;
+    }
+
+    public void setDatePlaceOrder(Date datePlaceOrder) {
+        this.datePlaceOrder = datePlaceOrder;
     }
 
 }
