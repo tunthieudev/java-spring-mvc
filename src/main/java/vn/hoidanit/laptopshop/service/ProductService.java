@@ -1,6 +1,8 @@
 package vn.hoidanit.laptopshop.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -147,7 +149,7 @@ public class ProductService {
 
     public void handlePlaceOrder(User user, HttpSession session,
             String receiverName, String receiverAddress, String receiverPhone) {
-
+        Map<Long, Long> map = new HashMap<>();
         // get cart by user
         Cart cart = this.cartRepository.findByUser(user);
         if (cart != null) {
@@ -178,6 +180,13 @@ public class ProductService {
                     orderDetail.setProduct(cd.getProduct());
                     orderDetail.setPrice(cd.getPrice());
                     orderDetail.setQuantity(cd.getQuantity());
+
+                    map.put(orderDetail.getProduct().getId(), orderDetail.getQuantity());
+                    // Product newProduct = new Product();
+                    // newProduct.setId(orderDetail.getProduct().getId());
+                    // newProduct.setQuantity(orderDetail.getQuantity());
+                    // this.productRepository.save(newProduct);
+
                     this.orderDetailRepository.save(orderDetail);
                 }
 

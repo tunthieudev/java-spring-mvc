@@ -22,7 +22,7 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Manage Products</h1>
+                                <h1 class="mt-4">Manage Statistics</h1>
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                                     <li class="breadcrumb-item active">Product</li>
@@ -30,41 +30,45 @@
                                 <div class="mt-5">
                                     <div class="row">
                                         <div class="col-12 mx-auto">
-                                            <div class="d-flex justify-content-between">
-                                                <h3>Table Products</h3>
-                                                <a href="/admin/product/create" class="btn btn-primary">Create a
-                                                    product</a>
-                                            </div>
-
-                                            <hr />
 
                                             <table class="table table-bordered table-hover">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">ID</th>
+                                                        <th scope="col">Image</th>
                                                         <th scope="col">Name</th>
+                                                        <th scope="col">Description</th>
                                                         <th scope="col">Price</th>
-                                                        <th scope="col">Factory</th>
-                                                        <th scope="col">Action</th>
+                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">Sold</th>
+                                                        <th scope="col">Revenue</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <c:forEach var="product" items="${products}">
                                                         <tr>
                                                             <th scope="row">${product.id}</th>
+
+                                                            <td>
+                                                                <img src="/images/product/${product.image}"
+                                                                    class="img-fluid me-5 rounded-circle"
+                                                                    style="width: 80px; height: 80px;" alt="">
+                                                            </td>
                                                             <td>${product.name}</td>
+                                                            <td>${product.shortDesc}</td>
                                                             <td>
                                                                 <fmt:formatNumber type="number"
                                                                     value="${product.price}" /> đ
                                                             </td>
-                                                            <td>${product.factory}</td>
                                                             <td>
-                                                                <a href="/admin/product/${product.id}"
-                                                                    class="btn btn-success">View</a>
-                                                                <a href="/admin/product/update/${product.id}"
-                                                                    class="btn btn-warning mx-2">Update</a>
-                                                                <a href="/admin/product/delete/${product.id}"
-                                                                    class="btn btn-danger">Delete</a>
+                                                                ${product.quantity}
+                                                            </td>
+                                                            <td>
+                                                                ${product.sold}
+                                                            </td>
+                                                            <td>
+                                                                <fmt:formatNumber type="number"
+                                                                    value="${product.price * product.sold}" /> đ
                                                             </td>
                                                         </tr>
                                                     </c:forEach>

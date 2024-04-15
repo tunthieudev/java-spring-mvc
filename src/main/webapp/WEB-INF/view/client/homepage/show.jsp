@@ -132,14 +132,11 @@
                                     </div>
                                     <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
                                         style="top: 10px; right: 10px;">Laptop</div>
-                                    <div
-                                        class="p-4 border border-secondary border-top-0 rounded-bottom align-items-center">
-                                        <div class="d-flex flex-lg-wrap justify-content-center">
-                                            <h4 style="font-size: 15px;">
-                                                <a href="/product/${product.id}">${product.name}</a>
-                                            </h4>
-                                            <p style="font-size: 13px;">${product.shortDesc}</p>
-                                        </div>
+                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                        <h4 style="font-size: 15px;text-align: center;">
+                                            <a href="/product/${product.id}">${product.name}</a>
+                                        </h4>
+                                        <p style="font-size: 13px;text-align: center;">${product.shortDesc}</p>
 
                                         <div class="d-flex flex-lg-wrap justify-content-center">
                                             <p style="font-size: 15px; text-align: center; width: 100%;"
