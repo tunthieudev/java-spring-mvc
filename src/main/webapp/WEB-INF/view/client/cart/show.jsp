@@ -178,10 +178,11 @@
                                                     <fmt:formatNumber type="number" value="${totalPrice}" /> đ
                                                 </p>
                                             </div>
-                                            <form:form action="/confirm-checkout" method="post" modelAttribute="cart">
+                                            <form:form action="/confirm-checkout" id="form" method="post"
+                                                modelAttribute="cart">
                                                 <input type="hidden" name="${_csrf.parameterName}"
                                                     value="${_csrf.token}" />
-                                                <div style="display: none;">
+                                                <div style="display: block;">
                                                     <c:forEach var="cartDetail" items="${cart.cartDetails}"
                                                         varStatus="status">
                                                         <div class="mb-3">
@@ -197,12 +198,17 @@
                                                                     value="${cartDetail.quantity}"
                                                                     path="cartDetails[${status.index}].quantity" />
                                                             </div>
+                                                            <div class="form-group">
+                                                                <label>Clicked:</label>
+                                                                <form:input class="form-control" type="text"
+                                                                    value="${cartDetail.clicked}" />
+                                                            </div>
                                                         </div>
                                                     </c:forEach>
                                                 </div>
-                                                <button
-                                                    class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4">Xác
-                                                    nhận thanh toán
+                                                <button id="btn-submit"
+                                                    class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4">
+                                                    Xác nhận thanh toán
                                                 </button>
                                             </form:form>
                                         </div>
@@ -241,16 +247,17 @@
                             for (var i = 0; i < checkboxes.length; i++) {
                                 if (checkboxes[i].checked) {
                                     arrResults.push(checkboxes[i].value);
+
                                 }
                             }
 
                             if (arrResults.length === checkboxes.length) {
                                 allCheckboxes.checked = true;
-                                console.log("true")
+                                // console.log("true")
                             }
                             else {
                                 allCheckboxes.checked = false;
-                                console.log("false")
+                                // console.log("false")
                             }
                             console.log("You have selected : " + arrResults);
 
@@ -264,6 +271,26 @@
                             }
                             getValue();
                         }
+
+                        function sendData(url, data = null, token) {
+                            var xhttp = new XMLHttpRequest();
+                            xhttp.open("POST", url, true);
+                            xhttp.setRequestHeader('Authorization', 'Bearer ' + token);
+                            xhttp.send(data);
+
+                        }
+
+                        document.getElementById("btn-submit").onclick(() => {
+                            const formData = document.getElementById("form");
+                            var object = {};
+                            formData.forEach(function (value, key) {
+                                object[key] = value;
+                            });
+                            object['arr'] = arrResults
+                            var json = JSON.stringify(object);
+
+                            sendData("http://localhost:8080/confirm-checkout", json, _csrf.token);
+                        })
                     </script>
                 </body>
 

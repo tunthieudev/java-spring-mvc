@@ -7,7 +7,7 @@
                     <div class="row g-4">
                         <div class="col-lg-3">
                             <a href="#">
-                                <h1 class="text-primary mb-0">LaptopMart</h1>
+                                <h1 class="text-primary mb-0">Laptopshop</h1>
                             </a>
                         </div>
                         <div class="col-lg-6">

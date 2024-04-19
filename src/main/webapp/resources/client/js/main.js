@@ -170,8 +170,6 @@
         const el = document.getElementById(`cartDetails${index}.quantity`);
         $(el).val(newVal);
 
-
-
         //get price
         const price = input.attr("data-cart-detail-price");
         const id = input.attr("data-cart-detail-id");

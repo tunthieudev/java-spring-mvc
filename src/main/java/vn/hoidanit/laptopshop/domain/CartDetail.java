@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "cart_detail")
@@ -19,6 +20,9 @@ public class CartDetail {
     private long quantity;
 
     private double price;
+
+    @Transient
+    public boolean clicked;
 
     // cart_id: long
     @ManyToOne
