@@ -21,12 +21,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class ItemController {
 
     private final ProductService productService;
+
+    private List<Long> listArrCheckbox;
 
     public ItemController(ProductService productService) {
         this.productService = productService;
@@ -91,7 +92,17 @@ public class ItemController {
 
         Cart cart = this.productService.fetchByUser(currentUser);
 
-        List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCartDetails();
+        // System.out.println("listArrCheckBox: " + listArrCheckbox);
+
+        List<CartDetail> cartDetails = new ArrayList<>();
+        for (var x : cart.getCartDetails()) {
+            // System.out.println(x.getProduct().getId());
+            if (listArrCheckbox.contains(x.getProduct().getId())) {
+                cartDetails.add(x);
+            }
+        }
+
+        // System.out.println("cartDetails: " + cartDetails.size());
 
         double totalPrice = 0;
         for (CartDetail cd : cartDetails) {
@@ -105,9 +116,24 @@ public class ItemController {
     }
 
     @PostMapping("/confirm-checkout")
-    public String getCheckOutPage(@ModelAttribute("cart") Cart cart) {
+    public String getCheckOutPage(@ModelAttribute("cart") Cart cart, @RequestParam("arrResults") String arrResults,
+            Model model) {
+
+        listArrCheckbox = new ArrayList<>();
+
         List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCartDetails();
         this.productService.handleUpdateCartBeforeCheckout(cartDetails);
+
+        String[] resultsArray = arrResults.substring(1, arrResults.length() - 1).trim().split(",");
+
+        for (String result : resultsArray) {
+            long number = Long.parseLong(result.trim().substring(1, result.length() - 1));
+            listArrCheckbox.add(number);
+        }
+
+        System.out.println("listArrCheckBox: " + listArrCheckbox);
+
+        model.addAttribute("listArrCheckbox", listArrCheckbox);
         return "redirect:/checkout";
     }
 
@@ -123,7 +149,8 @@ public class ItemController {
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
 
-        this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverAddress, receiverPhone);
+        this.productService.handlePlaceOrder(currentUser, listArrCheckbox, session, receiverName, receiverAddress,
+                receiverPhone);
 
         return "redirect:thanks";
     }

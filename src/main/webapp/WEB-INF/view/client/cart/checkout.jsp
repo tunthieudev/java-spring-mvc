@@ -79,8 +79,8 @@
                                                 </td>
                                             </tr>
                                         </c:if>
-                                        <c:forEach var="cartDetail" items="${cartDetails}">
 
+                                        <c:forEach var="cartDetail" items="${cartDetails}">
                                             <tr>
                                                 <th scope="row">
                                                     <div class="d-flex align-items-center">
@@ -116,7 +116,6 @@
                                                 </td>
                                             </tr>
                                         </c:forEach>
-
                                     </tbody>
                                 </table>
                             </div>
@@ -177,7 +176,7 @@
 
                                                 <button
                                                     class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4">
-                                                    Xác nhận thanh toán
+                                                    Đặt hàng
                                                 </button>
 
                                             </div>

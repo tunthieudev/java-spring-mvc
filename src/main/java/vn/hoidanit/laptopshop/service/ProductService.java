@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -154,13 +155,17 @@ public class ProductService {
         }
     }
 
-    public void handlePlaceOrder(User user, HttpSession session,
+    public void handlePlaceOrder(User user, List<Long> listPrSelected, HttpSession session,
             String receiverName, String receiverAddress, String receiverPhone) throws ParseException {
         Map<Long, Long> map = new HashMap<>();
         // get cart by user
         Cart cart = this.cartRepository.findByUser(user);
         if (cart != null) {
-            List<CartDetail> cartDetails = cart.getCartDetails();
+            List<CartDetail> cartDetails = new ArrayList<>();
+            for (var x : cart.getCartDetails()) {
+                if (listPrSelected.contains(x.getProduct().getId()))
+                    cartDetails.add(x);
+            }
 
             if (cartDetails != null) {
 
@@ -177,7 +182,7 @@ public class ProductService {
                 String formattedDateTime = now.format(formatter);
                 order.setDatePlaceOrder(formattedDateTime);
 
-                System.out.println("date pace order: " + order.getDatePlaceOrder());
+                // System.out.println("date pace order: " + order.getDatePlaceOrder());
 
                 double sum = 0;
                 for (CartDetail cd : cartDetails) {
@@ -207,18 +212,24 @@ public class ProductService {
                     pr.setQuantity(pr.getQuantity() - entry.getValue());
                     pr.setSold(pr.getSold() + entry.getValue());
                     this.productRepository.save(pr);
-                    System.out.println("product: " + pr);
                 }
+
+                System.out.println("size cartDetails: " + cart.getSum());
 
                 // delete cart_detail and cart
                 for (CartDetail cd : cartDetails) {
                     this.cartDetailRepository.deleteById(cd.getId());
                 }
 
-                this.cartRepository.deleteById(cart.getId());
+                int count = cart.getSum() - cartDetails.size();
+
+                cart.setSum(count);
+                System.out.println("size cartDetails: " + count);
+
+                // this.cartRepository.deleteById(cart.getId());
 
                 // update session
-                session.setAttribute("sum", 0);
+                session.setAttribute("sum", count);
             }
         }
     }

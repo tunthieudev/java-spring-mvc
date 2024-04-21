@@ -151,12 +151,12 @@
                                 </table>
                             </div>
                             <c:if test="${not empty cartDetails}">
-                                <div class="mt-5 row g-4 justify-content-start">
+                                <div class="mt-5 row g-4 justify-content-end">
                                     <div class="col-12 col-md-8">
                                         <div class="bg-light rounded">
                                             <div class="p-4">
-                                                <h1 class="display-6 mb-4">Thông Tin Đơn
-                                                    Hàng</span>
+                                                <h1 class="display-6 mb-4">
+                                                    <span>Thông Tin Đơn Hàng</span>
                                                 </h1>
                                                 <div class="d-flex justify-content-between mb-4">
                                                     <h5 class="mb-0 me-4">Tạm tính:</h5>
@@ -178,11 +178,12 @@
                                                     <fmt:formatNumber type="number" value="${totalPrice}" /> đ
                                                 </p>
                                             </div>
-                                            <form:form action="/confirm-checkout" id="form" method="post"
-                                                modelAttribute="cart">
+                                            <form:form action="/confirm-checkout" method="post" modelAttribute="cart"
+                                                id="checkoutForm">
+                                                <input type="hidden" id="arrResultsHidden" name="arrResults" />
                                                 <input type="hidden" name="${_csrf.parameterName}"
                                                     value="${_csrf.token}" />
-                                                <div style="display: block;">
+                                                <div style="display: none;">
                                                     <c:forEach var="cartDetail" items="${cart.cartDetails}"
                                                         varStatus="status">
                                                         <div class="mb-3">
@@ -198,16 +199,12 @@
                                                                     value="${cartDetail.quantity}"
                                                                     path="cartDetails[${status.index}].quantity" />
                                                             </div>
-                                                            <div class="form-group">
-                                                                <label>Clicked:</label>
-                                                                <form:input class="form-control" type="text"
-                                                                    value="${cartDetail.clicked}" />
-                                                            </div>
                                                         </div>
                                                     </c:forEach>
                                                 </div>
-                                                <button id="btn-submit"
-                                                    class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4">
+                                                <button id="checkoutButton" type="submit"
+                                                    class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
+                                                    onclick="getValue()">
                                                     Xác nhận thanh toán
                                                 </button>
                                             </form:form>
@@ -219,14 +216,11 @@
                     </div>
                     <!-- Cart Page End -->
 
-
                     <jsp:include page="../layout/footer.jsp" />
-
 
                     <!-- Back to Top -->
                     <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
                             class="fa fa-arrow-up"></i></a>
-
 
                     <!-- JavaScript Libraries -->
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -240,6 +234,7 @@
                     <script src="/client/js/main.js"></script>
                     <script>
                         let arrResults = [];
+
                         function getValue() {
                             arrResults = [];
                             let allCheckboxes = document.getElementById('allLaptop');
@@ -247,24 +242,29 @@
                             for (var i = 0; i < checkboxes.length; i++) {
                                 if (checkboxes[i].checked) {
                                     arrResults.push(checkboxes[i].value);
-
                                 }
                             }
 
                             if (arrResults.length === checkboxes.length) {
                                 allCheckboxes.checked = true;
-                                // console.log("true")
                             }
                             else {
                                 allCheckboxes.checked = false;
-                                // console.log("false")
                             }
+                            document.getElementById('arrResultsHidden').value = JSON.stringify(arrResults);
                             console.log("You have selected : " + arrResults);
 
+                            let checkoutButton = document.getElementById('checkoutButton');
+
+                            if (arrResults.length === 0) {
+                                alert('Không có sản phẩm được chọn trong giỏ hàng!');
+                                checkoutButton.disabled = true;
+                            } else {
+                                checkoutButton.disabled = false;
+                            }
                         }
 
                         function toggle(source) {
-
                             checkboxes = document.getElementsByName('laptop');
                             for (var i = 0, n = checkboxes.length; i < n; i++) {
                                 checkboxes[i].checked = source.checked;
@@ -272,25 +272,15 @@
                             getValue();
                         }
 
-                        function sendData(url, data = null, token) {
-                            var xhttp = new XMLHttpRequest();
-                            xhttp.open("POST", url, true);
-                            xhttp.setRequestHeader('Authorization', 'Bearer ' + token);
-                            xhttp.send(data);
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var checkboxes = document.getElementsByName('laptop');
 
-                        }
+                            for (var i = 0; i < checkboxes.length; i++) {
+                                checkboxes[i].checked = true;
+                            }
 
-                        document.getElementById("btn-submit").onclick(() => {
-                            const formData = document.getElementById("form");
-                            var object = {};
-                            formData.forEach(function (value, key) {
-                                object[key] = value;
-                            });
-                            object['arr'] = arrResults
-                            var json = JSON.stringify(object);
-
-                            sendData("http://localhost:8080/confirm-checkout", json, _csrf.token);
-                        })
+                            getValue();
+                        });
                     </script>
                 </body>
 

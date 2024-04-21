@@ -182,7 +182,6 @@
 
         //update total cart price
         const totalPriceElement = $(`p[data-cart-total-price]`);
-
         if (totalPriceElement && totalPriceElement.length) {
             const currentTotal = totalPriceElement.first().attr("data-cart-total-price");
             let newTotal = +currentTotal;
@@ -191,7 +190,6 @@
             } else {
                 newTotal = change * (+price) + (+currentTotal);
             }
-
             //reset change
             change = 0;
 

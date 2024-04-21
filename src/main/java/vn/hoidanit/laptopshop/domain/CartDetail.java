@@ -21,9 +21,6 @@ public class CartDetail {
 
     private double price;
 
-    @Transient
-    public boolean clicked;
-
     // cart_id: long
     @ManyToOne
     @JoinColumn(name = "cart_id")
