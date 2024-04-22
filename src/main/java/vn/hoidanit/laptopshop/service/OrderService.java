@@ -45,6 +45,15 @@ public class OrderService {
         this.orderRepository.deleteById(id);
     }
 
+    public void updateStatusOrder(Order order) {
+        Optional<Order> orderOptional = this.fetchOrderById(order.getId());
+        if (orderOptional.isPresent()) {
+            Order currentOrder = orderOptional.get();
+            currentOrder.setStatus("CANCEL");
+            this.orderRepository.save(currentOrder);
+        }
+    }
+
     public void updateOrder(Order order) {
         Optional<Order> orderOptional = this.fetchOrderById(order.getId());
         if (orderOptional.isPresent()) {

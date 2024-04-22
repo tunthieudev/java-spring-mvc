@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.CartDetail;
+import vn.hoidanit.laptopshop.domain.Order;
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.service.OrderService;
 import vn.hoidanit.laptopshop.service.ProductService;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -27,10 +29,13 @@ public class ItemController {
 
     private final ProductService productService;
 
+    private final OrderService orderService;
+
     private List<Long> listArrCheckbox;
 
-    public ItemController(ProductService productService) {
+    public ItemController(ProductService productService, OrderService orderService) {
         this.productService = productService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/product/{id}")
@@ -153,6 +158,20 @@ public class ItemController {
                 receiverPhone);
 
         return "redirect:thanks";
+    }
+
+    @GetMapping("/order-history/cancel-order/{id}")
+    public String getDeleteOrderPage(Model model, @PathVariable long id) {
+        model.addAttribute("id", id);
+        model.addAttribute("newOrder", new Order());
+        return "client/cart/delete-order";
+    }
+
+    @PostMapping("/client/cart/delete-order")
+    public String postDeleteOrder(@ModelAttribute("newOrder") Order order) {
+        this.orderService.updateStatusOrder(order);
+        // this.orderService.deleteOrderById(order.getId());
+        return "redirect:/order-history";
     }
 
     @GetMapping("/thanks")

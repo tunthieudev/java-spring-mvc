@@ -125,20 +125,22 @@
                                     <div class="mt-5 row g-4 justify-content-start">
                                         <div class="col-12 col-md-6">
                                             <div class="p-4 ">
-                                                <h5>Thông Tin Người Nhận
-                                                </h5>
+                                                <h5>Thông Tin Người Nhận</h5>
                                                 <div class="row">
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Tên người nhận</label>
-                                                        <input class="form-control" name="receiverName" required />
+                                                        <input class="form-control" type="text" name="receiverName"
+                                                            required />
                                                     </div>
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Địa chỉ người nhận</label>
-                                                        <input class="form-control" name="receiverAddress" required />
+                                                        <input class="form-control" type="text" name="receiverAddress"
+                                                            required />
                                                     </div>
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Số điện thoại</label>
-                                                        <input class="form-control" name="receiverPhone" required />
+                                                        <input class="form-control " type="text" name="receiverPhone"
+                                                            required />
                                                     </div>
                                                     <div class="mt-4">
                                                         <i class="fas fa-arrow-left"></i>
@@ -184,19 +186,15 @@
                                     </div>
                                 </form:form>
                             </c:if>
-
                         </div>
                     </div>
                     <!-- Cart Page End -->
 
-
                     <jsp:include page="../layout/footer.jsp" />
-
 
                     <!-- Back to Top -->
                     <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
                             class="fa fa-arrow-up"></i></a>
-
 
                     <!-- JavaScript Libraries -->
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>

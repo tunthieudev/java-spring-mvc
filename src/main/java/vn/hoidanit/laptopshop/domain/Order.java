@@ -1,9 +1,6 @@
 package vn.hoidanit.laptopshop.domain;
 
-import java.util.Date;
 import java.util.List;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,8 +23,11 @@ public class Order {
     private double totalPrice;
 
     private String receiverName;
+
     private String receiverAddress;
+
     private String receiverPhone;
+
     private String status;
 
     @Column(name = "date")

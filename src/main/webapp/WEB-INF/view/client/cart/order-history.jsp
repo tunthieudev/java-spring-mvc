@@ -69,6 +69,7 @@
                                         <th scope="col">Số lượng</th>
                                         <th scope="col">Thành tiền</th>
                                         <th scope="col">Trạng thái</th>
+                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -92,6 +93,17 @@
                                             <td colspan="2"></td>
                                             <td colspan="1">
                                                 ${order.status}
+                                            </td>
+                                            <td colspan="1">
+                                                <c:if test="${order.status eq 'PENDING'}">
+                                                    <a href="/order-history/cancel-order/${order.id}"
+                                                        class="btn btn-danger" style="width: 150px;">Hủy đơn
+                                                        hàng</a>
+                                                </c:if>
+                                                <c:if test="${order.status eq 'CANCEL'}">
+                                                    <a href="#" class="btn btn-warning" style="width: 150px;">Mua
+                                                        lại</a>
+                                                </c:if>
                                             </td>
                                         </tr>
                                         <c:forEach var="orderDetail" items="${order.orderDetails}">
@@ -130,7 +142,7 @@
                                                     </p>
                                                 </td>
                                                 <td></td>
-
+                                                <td></td>
                                             </tr>
                                         </c:forEach>
                                     </c:forEach>

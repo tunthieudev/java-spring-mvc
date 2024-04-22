@@ -214,7 +214,7 @@ public class ProductService {
                     this.productRepository.save(pr);
                 }
 
-                System.out.println("size cartDetails: " + cart.getSum());
+                // System.out.println("size cartDetails: " + cart.getSum());
 
                 // delete cart_detail and cart
                 for (CartDetail cd : cartDetails) {
@@ -224,9 +224,11 @@ public class ProductService {
                 int count = cart.getSum() - cartDetails.size();
 
                 cart.setSum(count);
-                System.out.println("size cartDetails: " + count);
+                // System.out.println("size cartDetails: " + count);
 
-                // this.cartRepository.deleteById(cart.getId());
+                if (count == 0) {
+                    this.cartRepository.deleteById(cart.getId());
+                }
 
                 // update session
                 session.setAttribute("sum", count);

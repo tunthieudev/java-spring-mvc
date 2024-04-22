@@ -1,5 +1,6 @@
 package vn.hoidanit.laptopshop.controller.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -102,7 +103,14 @@ public class HomePageController {
         currentUser.setId(id);
 
         List<Order> orders = this.orderService.fetchOrderByUser(currentUser);
-        model.addAttribute("orders", orders);
+
+        List<Order> reverseOrders = new ArrayList<>();
+
+        for (int i = orders.size() - 1; i >= 0; i--) {
+            reverseOrders.add(orders.get(i));
+        }
+
+        model.addAttribute("orders", reverseOrders);
         return "client/cart/order-history";
     }
 
