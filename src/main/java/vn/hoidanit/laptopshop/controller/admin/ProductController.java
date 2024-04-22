@@ -53,7 +53,7 @@ public class ProductController {
 
         // validate
         if (newProductBindingResult.hasErrors()) {
-            return "/admin/product/create";
+            return "admin/product/create";
         }
 
         // upload image
@@ -71,7 +71,7 @@ public class ProductController {
         Optional<Product> product = this.productService.getProductById(id);
         model.addAttribute("product", product.get());
         model.addAttribute("id", id);
-        return "/admin/product/detail";
+        return "admin/product/detail";
     }
 
     @GetMapping("/admin/product/delete/{id}")

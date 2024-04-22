@@ -35,7 +35,7 @@
 
                                     <div class="container">
                                         <div class="row justify-content-between align-items-center">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <form class="input-group">
                                                     <input type="text" class="form-control"
                                                         placeholder="Nhập nội dung cần tìm..." name="keyword"
@@ -46,7 +46,13 @@
                                                             kiếm</button>
                                                     </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
+                                                <span style="font-weight: bold; font-size: 20px;">
+                                                    Tổng doanh thu:
+                                                    <fmt:formatNumber type="number" value="${totalRevenue}" /> đ
+                                                </span>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <div class="dropdown float-right">
                                                     <button class="btn btn-success dropdown-toggle" type="button"
                                                         id="filterDropdown" data-toggle="dropdown" aria-haspopup="true"
@@ -70,7 +76,6 @@
 
                                     <div class="mt-5">
                                         <div class="row">
-
                                             <div class="col-12 mx-auto">
                                                 <table class="table table-bordered table-hover"
                                                     style="text-align: center;">

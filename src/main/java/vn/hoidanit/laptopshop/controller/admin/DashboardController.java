@@ -37,6 +37,11 @@ public class DashboardController {
             @RequestParam(required = false) String sortOrder) {
         List<Product> products = this.productService.getAllProducts();
 
+        int totalRevenue = 0;
+        for (Product pr : products) {
+            totalRevenue += (pr.getSold() * pr.getPrice());
+        }
+
         if (keyword != null) {
             products = this.productService.listAllProductsByName(keyword);
             model.addAttribute("keyword", keyword);
@@ -49,6 +54,7 @@ public class DashboardController {
             }
         }
         model.addAttribute("products", products);
+        model.addAttribute("totalRevenue", totalRevenue);
         return "admin/statistic/show";
     }
 }
