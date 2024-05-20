@@ -51,8 +51,7 @@
                                                         <tr>
                                                             <th>${order.id}</th>
                                                             <td>
-                                                                <fmt:formatNumber type="number"
-                                                                    value="${order.totalPrice}" /> đ
+                                                                <fmt:formatNumber type="number" value="" /> đ
                                                             </td>
                                                             <td>${order.user.fullName}</td>
                                                             <td>${order.status}</td>

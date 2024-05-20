@@ -49,7 +49,7 @@
                                             <div class="col-md-4">
                                                 <span style="font-weight: bold; font-size: 20px;">
                                                     Tổng doanh thu:
-                                                    <fmt:formatNumber type="number" value="${totalRevenue}" /> đ
+                                                    <fmt:formatNumber type="number" value="${totalAllRevenue}" /> đ
                                                 </span>
                                             </div>
                                             <div class="col-md-4">
@@ -85,7 +85,6 @@
                                                             <th scope="col">Image</th>
                                                             <th scope="col">Name</th>
                                                             <th scope="col">Description</th>
-                                                            <th scope="col">Price</th>
                                                             <th scope="col">Quantity</th>
                                                             <th scope="col">Sold</th>
                                                             <th scope="col">Revenue</th>
@@ -105,10 +104,6 @@
                                                                 <td>${product.name}</td>
                                                                 <td>${product.shortDesc}</td>
                                                                 <td>
-                                                                    <fmt:formatNumber type="number"
-                                                                        value="${product.price}" /> đ
-                                                                </td>
-                                                                <td>
                                                                     ${product.quantity}
                                                                 </td>
                                                                 <td>
@@ -116,9 +111,10 @@
                                                                 </td>
                                                                 <td>
                                                                     <fmt:formatNumber type="number"
-                                                                        value="${product.price * product.sold}" /> đ
+                                                                        value="${listRevenue[loop.index]}" /> đ
                                                                 </td>
-                                                                <td><a href="">Xem chi tiết</a></td>
+                                                                <td><a href="/admin/statistic/${product.id}">Xem chi
+                                                                        tiết</a></td>
                                                             </tr>
                                                         </c:forEach>
                                                     </tbody>

@@ -53,8 +53,7 @@
                                                         <label>Order id = ${newOrder.id} </label>
                                                         &nbsp; &nbsp; &nbsp; &nbsp;
                                                         <label class="form-label">Price:
-                                                            <fmt:formatNumber type="number"
-                                                                value="${newOrder.totalPrice}" /> đ
+                                                            <fmt:formatNumber type="number" value="" /> đ
                                                         </label>
                                                     </div>
 

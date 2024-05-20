@@ -16,8 +16,11 @@ import vn.hoidanit.laptopshop.domain.CartDetail;
 import vn.hoidanit.laptopshop.domain.Order;
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.service.EmailService;
 import vn.hoidanit.laptopshop.service.OrderService;
 import vn.hoidanit.laptopshop.service.ProductService;
+import vn.hoidanit.laptopshop.service.UserService;
+
 import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,11 +34,18 @@ public class ItemController {
 
     private final OrderService orderService;
 
+    private final EmailService emailService;
+
+    private final UserService userService;
+
     private List<Long> listArrCheckbox;
 
-    public ItemController(ProductService productService, OrderService orderService) {
+    public ItemController(ProductService productService, OrderService orderService, EmailService emailService,
+            UserService userService) {
         this.productService = productService;
         this.orderService = orderService;
+        this.emailService = emailService;
+        this.userService = userService;
     }
 
     @GetMapping("/product/{id}")
@@ -156,6 +166,11 @@ public class ItemController {
 
         this.productService.handlePlaceOrder(currentUser, listArrCheckbox, session, receiverName, receiverAddress,
                 receiverPhone);
+
+        // send email
+        User user = this.userService.getUserByIdUser(id);
+        emailService.sendEmail(user.getEmail(),
+                "This is subject", "Xác nhận đặt hàng thành công!");
 
         return "redirect:thanks";
     }

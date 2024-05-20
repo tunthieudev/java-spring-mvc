@@ -14,10 +14,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.name LIKE %?1%")
     List<Product> search(String keyword);
 
-    @Query("SELECT p FROM Product p ORDER BY (p.price*p.sold) ASC")
-    List<Product> getAllProductsSortedByAsc();
+    @Query("SELECT p FROM Product p LEFT JOIN OrderDetail od ON p.id = od.product.id " +
+            "GROUP BY p.id " +
+            "ORDER BY SUM(od.price * od.quantity) DESC")
+    List<Product> findAllOrderByRevenueDesc();
 
-    @Query("SELECT p FROM Product p ORDER BY (p.price*p.sold) DESC")
-    List<Product> getAllProductsSortedByDesc();
-
+    @Query("SELECT p FROM Product p LEFT JOIN OrderDetail od ON p.id = od.product.id " +
+            "GROUP BY p.id " +
+            "ORDER BY SUM(od.price * od.quantity) ASC")
+    List<Product> findAllOrderByRevenueAsc();
 }

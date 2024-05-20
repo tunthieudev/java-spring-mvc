@@ -1,12 +1,11 @@
 package vn.hoidanit.laptopshop.service;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +33,8 @@ public class ProductService {
     private final CartRepository cartRepository;
     private final CartDetailRepository cartDetailRepository;
     private final UserService userService;
-    private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
+    private final OrderRepository orderRepository;
 
     public ProductService(
             ProductRepository productRepository,
@@ -48,8 +47,8 @@ public class ProductService {
         this.cartRepository = cartRepository;
         this.cartDetailRepository = cartDetailRepository;
         this.userService = userService;
-        this.orderRepository = orderRepository;
         this.orderDetailRepository = orderDetailRepository;
+        this.orderRepository = orderRepository;
     }
 
     public List<Product> getAllProducts() {
@@ -71,7 +70,7 @@ public class ProductService {
     public void handleAddProductToCart(String email, long productId, HttpSession session, long quantity) {
         User user = this.userService.getUserByEmail(email);
         if (user != null) {
-            // check user đã có Cart chưa ? nếu chưa -> tạo mới
+
             Cart cart = this.cartRepository.findByUser(user);
 
             if (cart == null) {
@@ -90,7 +89,7 @@ public class ProductService {
             if (productOptional.isPresent()) {
                 Product realProduct = productOptional.get();
 
-                // check sản phẩm đã từng được thêm vào giỏ hàng trước đây chưa ?
+                // check sản phẩm đã từng được thêm vào giỏ hàng trước đây chưa
                 CartDetail oldDetail = this.cartDetailRepository.findByCartAndProduct(cart,
                         realProduct);
                 if (oldDetail == null) {
@@ -178,17 +177,18 @@ public class ProductService {
                 order.setStatus("PENDING");
 
                 LocalDateTime now = LocalDateTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 String formattedDateTime = now.format(formatter);
+
                 order.setDatePlaceOrder(formattedDateTime);
 
                 // System.out.println("date pace order: " + order.getDatePlaceOrder());
 
-                double sum = 0;
-                for (CartDetail cd : cartDetails) {
-                    sum += cd.getPrice();
-                }
-                order.setTotalPrice(sum);
+                // double sum = 0;
+                // for (CartDetail cd : cartDetails) {
+                // sum += cd.getPrice();
+                // }
+
                 order = this.orderRepository.save(order);
 
                 // create orderDetail
@@ -242,10 +242,10 @@ public class ProductService {
     }
 
     public List<Product> getAllProductsSortedByRevenueAsc() {
-        return this.productRepository.getAllProductsSortedByAsc();
+        return this.productRepository.findAllOrderByRevenueAsc();
     }
 
     public List<Product> getAllProductsSortedByRevenueDesc() {
-        return this.productRepository.getAllProductsSortedByDesc();
+        return this.productRepository.findAllOrderByRevenueDesc();
     }
 }

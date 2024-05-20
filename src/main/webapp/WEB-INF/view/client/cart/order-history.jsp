@@ -87,8 +87,6 @@
                                             </td>
 
                                             <td colspan="1">
-                                                <fmt:formatNumber type="number" value=" ${order.totalPrice}" />
-                                                đ
                                             </td>
                                             <td colspan="2"></td>
                                             <td colspan="1">

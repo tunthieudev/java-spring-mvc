@@ -1,7 +1,6 @@
 package vn.hoidanit.laptopshop.domain;
 
 import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,8 +18,6 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    private double totalPrice;
 
     private String receiverName;
 
@@ -95,14 +92,6 @@ public class Order {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
     public String getDatePlaceOrder() {
