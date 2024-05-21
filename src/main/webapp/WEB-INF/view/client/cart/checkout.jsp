@@ -126,7 +126,29 @@
                                         <div class="col-12 col-md-6">
                                             <div class="p-4 ">
                                                 <h5>Thông Tin Người Nhận</h5>
-                                                <div class="row">
+                                                <div class="row" id="selectReceiverSection">
+                                                    <div class="col-12 form-group mb-3">
+                                                        <label>Chọn thông tin người nhận</label>
+                                                        <select class="form-control" id="receiverSelect">
+                                                            <c:forEach var="receiver" items="${receiverInfos}">
+                                                                <option value="${receiver.id}">Tên: ${receiver.name} -
+                                                                    Địa chỉ: ${receiver.address} - SĐT:
+                                                                    ${receiver.phone}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-12 form-group mb-3">
+                                                        <button class="btn btn-primary" style="color: white;"
+                                                            id="addReceiverButton">Thêm
+                                                            thông tin người nhận khác</button>
+                                                    </div>
+                                                    <div class="mt-4">
+                                                        <i class="fas fa-arrow-left"></i>
+                                                        <a href="/cart">Quay lại giỏ hàng</a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" id="receiverInfoForm" style="display: none;">
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Tên người nhận</label>
                                                         <input class="form-control" type="text" name="receiverName"
@@ -139,14 +161,19 @@
                                                     </div>
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Số điện thoại</label>
-                                                        <input class="form-control " type="text" name="receiverPhone"
+                                                        <input class="form-control" type="text" name="receiverPhone"
                                                             required />
+                                                    </div>
+                                                    <div class="col-12 form-group mb-3">
+                                                        <button class="btn btn-secondary"
+                                                            id="cancelReceiverButton">Hủy</button>
                                                     </div>
                                                     <div class="mt-4">
                                                         <i class="fas fa-arrow-left"></i>
                                                         <a href="/cart">Quay lại giỏ hàng</a>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-6">
@@ -206,6 +233,23 @@
 
                     <!-- Template Javascript -->
                     <script src="/client/js/main.js"></script>
+                    <script>
+                        document.getElementById('addReceiverButton').addEventListener('click', function () {
+                            var selectReceiverSection = document.getElementById('selectReceiverSection');
+                            var receiverInfoForm = document.getElementById('receiverInfoForm');
+
+                            selectReceiverSection.style.display = 'none';
+                            receiverInfoForm.style.display = 'block';
+                        });
+
+                        document.getElementById('cancelReceiverButton').addEventListener('click', function () {
+                            var selectReceiverSection = document.getElementById('selectReceiverSection');
+                            var receiverInfoForm = document.getElementById('receiverInfoForm');
+
+                            selectReceiverSection.style.display = 'block';
+                            receiverInfoForm.style.display = 'none';
+                        });
+                    </script>
                 </body>
 
                 </html>

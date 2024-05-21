@@ -12,4 +12,5 @@ import vn.hoidanit.laptopshop.domain.User;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByUser(User user);
 
+    List<Order> findByDatePlaceOrderBetween(String startDate, String endDate);
 }

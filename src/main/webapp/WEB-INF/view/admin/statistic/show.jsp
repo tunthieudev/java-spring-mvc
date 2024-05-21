@@ -46,12 +46,14 @@
                                                             kiếm</button>
                                                     </div>
                                             </div>
+
                                             <div class="col-md-4">
                                                 <span style="font-weight: bold; font-size: 20px;">
                                                     Tổng doanh thu:
                                                     <fmt:formatNumber type="number" value="${totalAllRevenue}" /> đ
                                                 </span>
                                             </div>
+
                                             <div class="col-md-4">
                                                 <div class="dropdown float-right">
                                                     <button class="btn btn-success dropdown-toggle" type="button"
@@ -73,6 +75,22 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-md-4">
+                                        <form action="/admin/statistic" method="get" class="form-inline">
+                                            <div class="form-group mx-sm-3 mb-2">
+                                                <label for="startDate">Ngày bắt đầu</label>
+                                                <input type="date" class="form-control" id="startDate" name="startDate"
+                                                    placeholder="Start Date" required>
+                                            </div>
+                                            <div class="form-group mx-sm-3 mb-2">
+                                                <label for="endDate">Ngày kết thúc</label>
+                                                <input type="date" class="form-control" id="endDate" name="endDate"
+                                                    placeholder="End Date" required>
+                                            </div>
+                                            <button type="submit" class="mx-sm-3 btn btn-primary mb-2">Tìm
+                                                kiếm</button>
+                                        </form>
+                                    </div>
 
                                     <div class="mt-5">
                                         <div class="row">
@@ -104,10 +122,10 @@
                                                                 <td>${product.name}</td>
                                                                 <td>${product.shortDesc}</td>
                                                                 <td>
-                                                                    ${product.quantity}
+                                                                    ${listQuantityChange[loop.index]}
                                                                 </td>
                                                                 <td>
-                                                                    ${product.sold}
+                                                                    ${listAmountSold[loop.index]}
                                                                 </td>
                                                                 <td>
                                                                     <fmt:formatNumber type="number"

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +16,12 @@ import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.CartDetail;
 import vn.hoidanit.laptopshop.domain.Order;
 import vn.hoidanit.laptopshop.domain.Product;
+import vn.hoidanit.laptopshop.domain.ReceiverInfo;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.EmailService;
 import vn.hoidanit.laptopshop.service.OrderService;
 import vn.hoidanit.laptopshop.service.ProductService;
+import vn.hoidanit.laptopshop.service.ReceiverInfoService;
 import vn.hoidanit.laptopshop.service.UserService;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,14 +41,21 @@ public class ItemController {
 
     private final UserService userService;
 
+    private final ReceiverInfoService receiverInfoService;
+
     private List<Long> listArrCheckbox;
 
-    public ItemController(ProductService productService, OrderService orderService, EmailService emailService,
-            UserService userService) {
+    public ItemController(
+            ProductService productService,
+            OrderService orderService,
+            EmailService emailService,
+            UserService userService,
+            ReceiverInfoService receiverInfoService) {
         this.productService = productService;
         this.orderService = orderService;
         this.emailService = emailService;
         this.userService = userService;
+        this.receiverInfoService = receiverInfoService;
     }
 
     @GetMapping("/product/{id}")
@@ -105,25 +115,23 @@ public class ItemController {
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
 
-        Cart cart = this.productService.fetchByUser(currentUser);
+        List<ReceiverInfo> getReceiverInfos = this.receiverInfoService.getReceiverInfosByUserId(id);
 
-        // System.out.println("listArrCheckBox: " + listArrCheckbox);
+        Cart cart = this.productService.fetchByUser(currentUser);
 
         List<CartDetail> cartDetails = new ArrayList<>();
         for (var x : cart.getCartDetails()) {
-            // System.out.println(x.getProduct().getId());
             if (listArrCheckbox.contains(x.getProduct().getId())) {
                 cartDetails.add(x);
             }
         }
-
-        // System.out.println("cartDetails: " + cartDetails.size());
 
         double totalPrice = 0;
         for (CartDetail cd : cartDetails) {
             totalPrice += cd.getPrice() * cd.getQuantity();
         }
 
+        model.addAttribute("receiverInfos", getReceiverInfos);
         model.addAttribute("cartDetails", cartDetails);
         model.addAttribute("totalPrice", totalPrice);
 
@@ -161,11 +169,17 @@ public class ItemController {
         HttpSession session = request.getSession(false);
 
         User currentUser = new User();// null
+        ReceiverInfo receiverInfo = new ReceiverInfo();// null
+
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
 
-        this.productService.handlePlaceOrder(currentUser, listArrCheckbox, session, receiverName, receiverAddress,
-                receiverPhone);
+        receiverInfo.setName(receiverName);
+        receiverInfo.setAddress(receiverAddress);
+        receiverInfo.setPhone(receiverPhone);
+        receiverInfo.setUser(currentUser);
+
+        this.productService.handlePlaceOrder(currentUser, listArrCheckbox, session, receiverInfo);
 
         // send email
         User user = this.userService.getUserByIdUser(id);

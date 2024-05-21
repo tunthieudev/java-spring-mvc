@@ -2,6 +2,7 @@ package vn.hoidanit.laptopshop.controller.admin;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -42,20 +43,63 @@ public class DashboardController {
     }
 
     @GetMapping("/admin/statistic")
-    public String getStatisticPage(Model model, @Param("keyword") String keyword,
-            @RequestParam(required = false) String sortOrder) {
+    public String getStatisticPage(
+            Model model,
+            @Param("keyword") String keyword,
+            @RequestParam(required = false) String sortOrder,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+
         List<Product> products = this.productService.getAllProducts();
         List<Double> listRevenue = new ArrayList<>();
+        List<Long> listAmountSold = new ArrayList<>();
+        List<Long> totalQuantityProduct = new ArrayList<>();
+        List<Long> listQuantityChange = new ArrayList<>();
+
+        String startDateStr = startDate != null ? startDate.toString() : null;
+        String endDateStr = endDate != null ? endDate.toString() : null;
 
         for (Product product : products) {
-            List<OrderDetail> listOrders = this.orderService.getOrderByProductId(product.getId());
+            List<OrderDetail> listOrders = new ArrayList<>();
+            List<List<OrderDetail>> newOrderDetail = new ArrayList<>();
+
+            if (startDateStr != null && endDateStr != null) {
+                List<Order> orders = this.orderService.getOrdersBetweenDates(startDateStr, endDateStr);
+                for (Order order : orders) {
+                    newOrderDetail.add(this.orderService.getOrderByOrderId(order.getId()));
+                }
+                for (List<OrderDetail> x : newOrderDetail) {
+                    for (OrderDetail orderDetail : x) {
+                        if (orderDetail.getProduct().getId() == product.getId()) {
+                            listOrders.add(orderDetail);
+                        }
+                    }
+                }
+            } else {
+                listOrders = this.orderService.getOrderByProductId(product.getId());
+            }
+
             double totalRevenue = 0;
+            long amountSold = 0;
+            long count = 0;
+
             for (OrderDetail orderDetail : listOrders) {
                 totalRevenue += orderDetail.getPrice() * orderDetail.getQuantity();
+                amountSold += orderDetail.getQuantity();
             }
+            listAmountSold.add(amountSold);
             listRevenue.add(totalRevenue);
+
+            count += (product.getQuantity() + product.getSold());
+            totalQuantityProduct.add(count);
         }
 
+        for (int i = 0; i < totalQuantityProduct.size(); i++) {
+            long cnt = totalQuantityProduct.get(i) - listAmountSold.get(i);
+            listQuantityChange.add(cnt);
+        }
+
+        // filter
         if (sortOrder != null && !sortOrder.isEmpty()) {
             if ("asc".equals(sortOrder)) {
                 products = this.productService.getAllProductsSortedByRevenueAsc();
@@ -71,12 +115,15 @@ public class DashboardController {
             totalAllRevenue += x;
         }
 
+        // search by key
         if (keyword != null) {
             products = this.productService.listAllProductsByName(keyword);
             model.addAttribute("keyword", keyword);
         }
 
         model.addAttribute("totalAllRevenue", totalAllRevenue);
+        model.addAttribute("listAmountSold", listAmountSold);
+        model.addAttribute("listQuantityChange", listQuantityChange);
         model.addAttribute("listRevenue", listRevenue);
         model.addAttribute("products", products);
         return "admin/statistic/show";
@@ -88,15 +135,30 @@ public class DashboardController {
             @PathVariable long id,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-        List<OrderDetail> listOrders = this.orderService.getOrderByProductId(id);
+        List<OrderDetail> listOrders = new ArrayList<>();
         LinkedHashSet<Long> listOrderId = new LinkedHashSet<>();
+        List<List<OrderDetail>> newOrderDetail = new ArrayList<>();
 
-        if (startDate != null && endDate != null) {
-            // listOrders = this.orderService.getOrderByProductIdAndDateRange(id, startDate,
-            // endDate);
+        String startDateStr = startDate != null ? startDate.toString() : null;
+        String endDateStr = endDate != null ? endDate.toString() : null;
+
+        if (startDateStr != null && endDateStr != null) {
+            List<Order> orders = this.orderService.getOrdersBetweenDates(startDateStr, endDateStr);
+            for (Order order : orders) {
+                newOrderDetail.add(this.orderService.getOrderByOrderId(order.getId()));
+            }
+            for (List<OrderDetail> x : newOrderDetail) {
+                for (OrderDetail orderDetail : x) {
+                    if (orderDetail.getProduct().getId() == id) {
+                        listOrders.add(orderDetail);
+                    }
+                }
+            }
         } else {
-            // listOrders = this.orderService.getOrderByProductId(id);
+            listOrders = this.orderService.getOrderByProductId(id);
         }
+
+        System.out.println(listOrders.size());
 
         double totalRevenue = 0;
         for (OrderDetail orderDetail : listOrders) {

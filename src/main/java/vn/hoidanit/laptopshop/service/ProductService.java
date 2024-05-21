@@ -1,7 +1,6 @@
 package vn.hoidanit.laptopshop.service;
 
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,6 +19,7 @@ import vn.hoidanit.laptopshop.domain.CartDetail;
 import vn.hoidanit.laptopshop.domain.Order;
 import vn.hoidanit.laptopshop.domain.OrderDetail;
 import vn.hoidanit.laptopshop.domain.Product;
+import vn.hoidanit.laptopshop.domain.ReceiverInfo;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.repository.CartDetailRepository;
 import vn.hoidanit.laptopshop.repository.CartRepository;
@@ -155,8 +155,9 @@ public class ProductService {
     }
 
     public void handlePlaceOrder(User user, List<Long> listPrSelected, HttpSession session,
-            String receiverName, String receiverAddress, String receiverPhone) throws ParseException {
+            ReceiverInfo receiverInfo) throws ParseException {
         Map<Long, Long> map = new HashMap<>();
+
         // get cart by user
         Cart cart = this.cartRepository.findByUser(user);
         if (cart != null) {
@@ -167,22 +168,18 @@ public class ProductService {
             }
 
             if (cartDetails != null) {
-
                 // create order
                 Order order = new Order();
                 order.setUser(user);
-                order.setReceiverName(receiverName);
-                order.setReceiverAddress(receiverAddress);
-                order.setReceiverPhone(receiverPhone);
+                order.setReceiverInfo(receiverInfo);
                 order.setStatus("PENDING");
 
+                // set date place
                 LocalDateTime now = LocalDateTime.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 String formattedDateTime = now.format(formatter);
 
                 order.setDatePlaceOrder(formattedDateTime);
-
-                // System.out.println("date pace order: " + order.getDatePlaceOrder());
 
                 // double sum = 0;
                 // for (CartDetail cd : cartDetails) {
@@ -192,7 +189,6 @@ public class ProductService {
                 order = this.orderRepository.save(order);
 
                 // create orderDetail
-
                 for (CartDetail cd : cartDetails) {
                     OrderDetail orderDetail = new OrderDetail();
                     orderDetail.setOrder(order);
@@ -206,15 +202,11 @@ public class ProductService {
                 }
 
                 for (Entry<Long, Long> entry : map.entrySet()) {
-                    System.out.println(entry.getKey() + " " + entry.getValue());
-
                     Product pr = this.productRepository.findById(entry.getKey()).get();
                     pr.setQuantity(pr.getQuantity() - entry.getValue());
                     pr.setSold(pr.getSold() + entry.getValue());
                     this.productRepository.save(pr);
                 }
-
-                // System.out.println("size cartDetails: " + cart.getSum());
 
                 // delete cart_detail and cart
                 for (CartDetail cd : cartDetails) {
@@ -222,9 +214,7 @@ public class ProductService {
                 }
 
                 int count = cart.getSum() - cartDetails.size();
-
                 cart.setSum(count);
-                // System.out.println("size cartDetails: " + count);
 
                 if (count == 0) {
                     this.cartRepository.deleteById(cart.getId());

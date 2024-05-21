@@ -22,7 +22,6 @@ import vn.hoidanit.laptopshop.domain.dto.RegisterDTO;
 import vn.hoidanit.laptopshop.service.OrderService;
 import vn.hoidanit.laptopshop.service.ProductService;
 import vn.hoidanit.laptopshop.service.UserService;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomePageController {

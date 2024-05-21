@@ -70,4 +70,12 @@ public class OrderService {
     public List<OrderDetail> getOrderByProductId(long productId) {
         return this.orderDetailRepository.getOrderByProductId(productId);
     }
+
+    public List<OrderDetail> getOrderByOrderId(long orderId) {
+        return this.orderDetailRepository.getOrderByOrderId(orderId);
+    }
+
+    public List<Order> getOrdersBetweenDates(String startDate, String endDate) {
+        return orderRepository.findByDatePlaceOrderBetween(startDate, endDate);
+    }
 }

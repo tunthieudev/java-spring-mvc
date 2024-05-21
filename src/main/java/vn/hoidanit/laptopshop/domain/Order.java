@@ -19,12 +19,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String receiverName;
-
-    private String receiverAddress;
-
-    private String receiverPhone;
-
     private String status;
 
     @Column(name = "date")
@@ -35,32 +29,13 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
+    // receiver_id
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    private ReceiverInfo receiverInfo;
+
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails;
-
-    public String getReceiverName() {
-        return receiverName;
-    }
-
-    public void setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
-    }
-
-    public String getReceiverAddress() {
-        return receiverAddress;
-    }
-
-    public void setReceiverAddress(String receiverAddress) {
-        this.receiverAddress = receiverAddress;
-    }
-
-    public String getReceiverPhone() {
-        return receiverPhone;
-    }
-
-    public void setReceiverPhone(String receiverPhone) {
-        this.receiverPhone = receiverPhone;
-    }
 
     public String getStatus() {
         return status;
@@ -100,6 +75,14 @@ public class Order {
 
     public void setDatePlaceOrder(String datePlaceOrder) {
         this.datePlaceOrder = datePlaceOrder;
+    }
+
+    public ReceiverInfo getReceiverInfo() {
+        return receiverInfo;
+    }
+
+    public void setReceiverInfo(ReceiverInfo receiverInfo) {
+        this.receiverInfo = receiverInfo;
     }
 
 }

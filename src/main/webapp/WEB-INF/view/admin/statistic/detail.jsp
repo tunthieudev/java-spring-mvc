@@ -27,6 +27,7 @@
                                 <h1 class="mt-4">Manage Statistics</h1>
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Statistic</li>
                                     <li class="breadcrumb-item active">Product</li>
                                     <li class="breadcrumb-item active">${id}</li>
                                 </ol>
@@ -39,22 +40,27 @@
                                                 <fmt:formatNumber type="number" value="${totalRevenue}" /> đ
                                             </span>
                                         </div>
-                                        <div class="col-md-8">
+
+                                        <div class="col-md-4">
                                             <form action="/admin/statistic/${id}" method="get" class="form-inline">
                                                 <div class="form-group mx-sm-3 mb-2">
-                                                    <label for="startDate" class="sr-only">Start Date</label>
+                                                    <label for="startDate">Ngày bắt
+                                                        đầu</label>
                                                     <input type="date" class="form-control" id="startDate"
-                                                        name="startDate" placeholder="Start Date">
+                                                        name="startDate" placeholder="Start Date" required>
                                                 </div>
                                                 <div class="form-group mx-sm-3 mb-2">
-                                                    <label for="endDate" class="sr-only">End Date</label>
+                                                    <label for="endDate">Ngày kết thúc</label>
                                                     <input type="date" class="form-control" id="endDate" name="endDate"
-                                                        placeholder="End Date">
+                                                        placeholder="End Date" required>
                                                 </div>
-                                                <button type="submit" class="btn btn-primary mb-2">Search</button>
+                                                <button type="submit" class="mx-sm-3 btn btn-primary mb-2">Tìm
+                                                    kiếm</button>
                                             </form>
                                         </div>
                                     </div>
+
+
                                 </div>
 
                                 <div class="mt-5">

@@ -10,4 +10,6 @@ import vn.hoidanit.laptopshop.domain.OrderDetail;
 @Repository
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> {
     List<OrderDetail> getOrderByProductId(long productId);
+
+    List<OrderDetail> getOrderByOrderId(long orderId);
 }
