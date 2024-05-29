@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class ItemController {
@@ -139,7 +141,9 @@ public class ItemController {
     }
 
     @PostMapping("/confirm-checkout")
-    public String getCheckOutPage(@ModelAttribute("cart") Cart cart, @RequestParam("arrResults") String arrResults,
+    public String getCheckOutPage(
+            @ModelAttribute("cart") Cart cart,
+            @RequestParam("arrResults") String arrResults,
             Model model) {
 
         listArrCheckbox = new ArrayList<>();
@@ -153,9 +157,6 @@ public class ItemController {
             long number = Long.parseLong(result.trim().substring(1, result.length() - 1));
             listArrCheckbox.add(number);
         }
-
-        System.out.println("listArrCheckBox: " + listArrCheckbox);
-
         model.addAttribute("listArrCheckbox", listArrCheckbox);
         return "redirect:/checkout";
     }
@@ -163,21 +164,15 @@ public class ItemController {
     @PostMapping("/place-order")
     public String handlePlaceOrder(
             HttpServletRequest request,
-            @RequestParam("receiverName") String receiverName,
-            @RequestParam("receiverAddress") String receiverAddress,
-            @RequestParam("receiverPhone") String receiverPhone) throws ParseException {
+            @RequestParam("receiverId") Long receiverId) throws ParseException {
         HttpSession session = request.getSession(false);
 
         User currentUser = new User();// null
-        ReceiverInfo receiverInfo = new ReceiverInfo();// null
 
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
 
-        receiverInfo.setName(receiverName);
-        receiverInfo.setAddress(receiverAddress);
-        receiverInfo.setPhone(receiverPhone);
-        receiverInfo.setUser(currentUser);
+        ReceiverInfo receiverInfo = receiverInfoService.getReceiverInfoById(receiverId);
 
         this.productService.handlePlaceOrder(currentUser, listArrCheckbox, session, receiverInfo);
 

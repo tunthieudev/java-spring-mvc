@@ -129,40 +129,41 @@
                                                 <div class="row" id="selectReceiverSection">
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Chọn thông tin người nhận</label>
-                                                        <select class="form-control" id="receiverSelect">
+                                                        <select class="form-control" id="receiverSelect"
+                                                            name="receiverId">
                                                             <c:forEach var="receiver" items="${receiverInfos}">
-                                                                <option value="${receiver.id}">Tên: ${receiver.name} -
-                                                                    Địa chỉ: ${receiver.address} - SĐT:
-                                                                    ${receiver.phone}</option>
+                                                                <option value="${receiver.id}">
+                                                                    Họ tên: ${receiver.name} -
+                                                                    Địa chỉ: ${receiver.address} -
+                                                                    SĐT: ${receiver.phone}
+                                                                </option>
                                                             </c:forEach>
                                                         </select>
                                                     </div>
-                                                    <div class="col-12 form-group mb-3">
-                                                        <button class="btn btn-primary" style="color: white;"
+                                                    <!-- <div class="col-12 form-group mb-3">
+                                                        <a class="btn btn-primary" style="color: white;"
                                                             id="addReceiverButton">Thêm
-                                                            thông tin người nhận khác</button>
-                                                    </div>
+                                                            thông tin người nhận khác</a>
+                                                    </div> -->
                                                     <div class="mt-4">
                                                         <i class="fas fa-arrow-left"></i>
                                                         <a href="/cart">Quay lại giỏ hàng</a>
                                                     </div>
                                                 </div>
 
-                                                <div class="row" id="receiverInfoForm" style="display: none;">
+                                                <!-- <div class="row" id="receiverInfoForm" style="display: none;">
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Tên người nhận</label>
-                                                        <input class="form-control" type="text" name="receiverName"
-                                                            required />
+                                                        <input class="form-control" type="text" name="receiverName" />
                                                     </div>
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Địa chỉ người nhận</label>
-                                                        <input class="form-control" type="text" name="receiverAddress"
-                                                            required />
+                                                        <input class="form-control" type="text"
+                                                            name="receiverAddress" />
                                                     </div>
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Số điện thoại</label>
-                                                        <input class="form-control" type="text" name="receiverPhone"
-                                                            required />
+                                                        <input class="form-control" type="text" name="receiverPhone" />
                                                     </div>
                                                     <div class="col-12 form-group mb-3">
                                                         <button class="btn btn-secondary"
@@ -171,15 +172,16 @@
                                                     <div class="mt-4">
                                                         <i class="fas fa-arrow-left"></i>
                                                         <a href="/cart">Quay lại giỏ hàng</a>
-                                                    </div>
-                                                </div>
-
+                                                    </div> -->
                                             </div>
+
                                         </div>
+
                                         <div class="col-12 col-md-6">
                                             <div class="bg-light rounded">
                                                 <div class="p-4">
-                                                    <h1 class="display-6 mb-4">Thông Tin Thanh Toán</span>
+                                                    <h1 class="display-6 mb-4">
+                                                        <span>Thông Tin Thanh Toán</span>
                                                     </h1>
 
                                                     <div class="d-flex justify-content-between">
