@@ -158,8 +158,6 @@ public class DashboardController {
             listOrders = this.orderService.getOrderByProductId(id);
         }
 
-        System.out.println(listOrders.size());
-
         double totalRevenue = 0;
         for (OrderDetail orderDetail : listOrders) {
             long orderId = orderDetail.getOrder().getId();

@@ -8,7 +8,7 @@
 
                 <head>
                     <meta charset="utf-8">
-                    <title> Thanh toán - Laptopshop</title>
+                    <title>Thanh toán - Laptopshop</title>
                     <meta content="width=device-width, initial-scale=1.0" name="viewport">
                     <meta content="" name="keywords">
                     <meta content="" name="description">
@@ -140,11 +140,7 @@
                                                             </c:forEach>
                                                         </select>
                                                     </div>
-                                                    <!-- <div class="col-12 form-group mb-3">
-                                                        <a class="btn btn-primary" style="color: white;"
-                                                            id="addReceiverButton">Thêm
-                                                            thông tin người nhận khác</a>
-                                                    </div> -->
+
                                                     <div class="mt-4">
                                                         <i class="fas fa-arrow-left"></i>
                                                         <a href="/cart">Quay lại giỏ hàng</a>
