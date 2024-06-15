@@ -3,6 +3,9 @@ package vn.hoidanit.laptopshop.controller.admin;
 import java.time.LocalDate;
 import java.util.*;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -52,7 +55,10 @@ public class DashboardController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
-        List<Product> products = this.productService.getAllProducts();
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Product> products = this.productService.getAllProducts(pageable);
+        List<Product> listProducts = products.getContent();
+
         List<Double> listRevenue = new ArrayList<>();
         List<Long> listAmountSold = new ArrayList<>();
         List<Long> totalQuantityProduct = new ArrayList<>();
@@ -106,10 +112,10 @@ public class DashboardController {
         // filter
         if (sortOrder != null && !sortOrder.isEmpty()) {
             if ("asc".equals(sortOrder)) {
-                products = this.productService.getAllProductsSortedByRevenueAsc();
+                listProducts = this.productService.getAllProductsSortedByRevenueAsc();
                 Collections.sort(listRevenue);
             } else if ("desc".equals(sortOrder)) {
-                products = this.productService.getAllProductsSortedByRevenueDesc();
+                listProducts = this.productService.getAllProductsSortedByRevenueDesc();
                 Collections.sort(listRevenue, Collections.reverseOrder());
             }
         }
@@ -121,7 +127,7 @@ public class DashboardController {
 
         // search by key
         if (keyword != null) {
-            products = this.productService.listAllProductsByName(keyword);
+            listProducts = this.productService.listAllProductsByName(keyword);
             model.addAttribute("keyword", keyword);
         }
 
@@ -129,7 +135,7 @@ public class DashboardController {
         model.addAttribute("listAmountSold", listAmountSold);
         model.addAttribute("listQuantityChange", listQuantityChange);
         model.addAttribute("listRevenue", listRevenue);
-        model.addAttribute("products", products);
+        model.addAttribute("products", listProducts);
         return "admin/statistic/show";
     }
 
