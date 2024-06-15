@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eureka-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: eureka-service
+  template:
+    metadata:
+      labels:
+        app: eureka-service
+    spec:
+      containers:
+        - name: eureka-service
+          image: truongvh001/spring-boot-app
+          ports:
+            - containerPort: 8761

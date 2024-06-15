@@ -1,0 +1,42 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "LaptopshopApplication",
+            "request": "launch",
+            "mainClass": "vn.hoidanit.laptopshop.LaptopshopApplication"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-EurekaServiceApplication<vn.hoidanit.example-EurekaService>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "vn.hoidanit.example.EurekaService.EurekaServiceApplication",
+            "projectName": "vn.hoidanit.example-EurekaService",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dvn.hoidanit.sun.management.jmxremote -Dvn.hoidanit.sun.management.jmxremote.port=54514 -Dvn.hoidanit.sun.management.jmxremote.authenticate=false -Dvn.hoidanit.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=vn.hoidanit.example-EurekaService"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-GatewayApplication<vn.hoidanit.example-Gateway>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "vn.hoidanit.example.Gateway.GatewayApplication",
+            "projectName": "vn.hoidanit.example-Gateway",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-LaptopshopApplication<vn.hoidanit-laptopshop>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "vn.hoidanit.laptopshop.LaptopshopApplication",
+            "projectName": "vn.hoidanit-laptopshop",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dvn.hoidanit.sun.management.jmxremote -Dvn.hoidanit.sun.management.jmxremote.port=54892 -Dvn.hoidanit.sun.management.jmxremote.authenticate=false -Dvn.hoidanit.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=vn.hoidanit-laptopshop"
+        }
+    ]
+}
