@@ -2,7 +2,6 @@ package vn.hoidanit.laptopshop.controller.admin;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,6 +25,9 @@ public class DashboardController {
     private final UserService userService;
     private final ProductService productService;
     private final OrderService orderService;
+
+    private String firstDate;
+    private String secondDate;
 
     public DashboardController(UserService userService, ProductService productService, OrderService orderService) {
         this.userService = userService;
@@ -58,13 +60,15 @@ public class DashboardController {
 
         String startDateStr = startDate != null ? startDate.toString() : null;
         String endDateStr = endDate != null ? endDate.toString() : null;
+        firstDate = startDateStr;
+        secondDate = endDateStr;
 
         for (Product product : products) {
             List<OrderDetail> listOrders = new ArrayList<>();
             List<List<OrderDetail>> newOrderDetail = new ArrayList<>();
 
             if (startDateStr != null && endDateStr != null) {
-                List<Order> orders = this.orderService.getOrdersBetweenDates(startDateStr, endDateStr);
+                List<Order> orders = this.orderService.getOrdersBetweenDates(firstDate, secondDate);
                 for (Order order : orders) {
                     newOrderDetail.add(this.orderService.getOrderByOrderId(order.getId()));
                 }
@@ -132,18 +136,13 @@ public class DashboardController {
     @GetMapping("/admin/statistic/{id}")
     public String getDetailStatisticProduct(
             Model model,
-            @PathVariable long id,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+            @PathVariable long id) {
         List<OrderDetail> listOrders = new ArrayList<>();
         LinkedHashSet<Long> listOrderId = new LinkedHashSet<>();
         List<List<OrderDetail>> newOrderDetail = new ArrayList<>();
 
-        String startDateStr = startDate != null ? startDate.toString() : null;
-        String endDateStr = endDate != null ? endDate.toString() : null;
-
-        if (startDateStr != null && endDateStr != null) {
-            List<Order> orders = this.orderService.getOrdersBetweenDates(startDateStr, endDateStr);
+        if (firstDate != null && !firstDate.isEmpty() && secondDate != null && !secondDate.isEmpty()) {
+            List<Order> orders = this.orderService.getOrdersBetweenDates(firstDate, secondDate);
             for (Order order : orders) {
                 newOrderDetail.add(this.orderService.getOrderByOrderId(order.getId()));
             }

@@ -40,24 +40,6 @@
                                                 <fmt:formatNumber type="number" value="${totalRevenue}" /> đ
                                             </span>
                                         </div>
-
-                                        <div class="col-md-4">
-                                            <form action="/admin/statistic/${id}" method="get" class="form-inline">
-                                                <div class="form-group mx-sm-3 mb-2">
-                                                    <label for="startDate">Ngày bắt
-                                                        đầu</label>
-                                                    <input type="date" class="form-control" id="startDate"
-                                                        name="startDate" placeholder="Start Date" required>
-                                                </div>
-                                                <div class="form-group mx-sm-3 mb-2">
-                                                    <label for="endDate">Ngày kết thúc</label>
-                                                    <input type="date" class="form-control" id="endDate" name="endDate"
-                                                        placeholder="End Date" required>
-                                                </div>
-                                                <button type="submit" class="mx-sm-3 btn btn-primary mb-2">Tìm
-                                                    kiếm</button>
-                                            </form>
-                                        </div>
                                     </div>
 
 
@@ -73,7 +55,7 @@
                                                         <th>Image</th>
                                                         <th>Name</th>
                                                         <th>Price</th>
-                                                        <th>Amount Sold</th>
+                                                        <th>Sold</th>
                                                         <th>Sale Date</th>
                                                         <th>Buyer</th>
                                                     </tr>

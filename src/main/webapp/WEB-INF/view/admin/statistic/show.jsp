@@ -103,7 +103,6 @@
                                                             <th scope="col">Image</th>
                                                             <th scope="col">Name</th>
                                                             <th scope="col">Description</th>
-                                                            <th scope="col">Quantity</th>
                                                             <th scope="col">Sold</th>
                                                             <th scope="col">Revenue</th>
                                                             <th scope="col">Action</th>
@@ -121,9 +120,6 @@
                                                                 </td>
                                                                 <td>${product.name}</td>
                                                                 <td>${product.shortDesc}</td>
-                                                                <td>
-                                                                    ${listQuantityChange[loop.index]}
-                                                                </td>
                                                                 <td>
                                                                     ${listAmountSold[loop.index]}
                                                                 </td>
